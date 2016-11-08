@@ -129,27 +129,27 @@ BOOL CDashmp4Dlg::OnInitDialog()
 		WORD wVersionRequested;  
 		WSADATA wsaData;  
 		int ret;  
-		SOCKET sClient; //Á¬½ÓÌ×½Ó×Ö  
-		struct sockaddr_in saServer; //·şÎñÆ÷µØÖ·ĞÅÏ¢  		
+		SOCKET sClient; //è¿æ¥å¥—æ¥å­—  
+		struct sockaddr_in saServer; //æœåŠ¡å™¨åœ°å€ä¿¡æ¯  		
 		BOOL fSuccess = TRUE;  
 		
-		//WinSock³õÊ¼»¯  
-		wVersionRequested = MAKEWORD(2, 2); //Ï£ÍûÊ¹ÓÃµÄWinSock DLLµÄ°æ±¾  
-		ret = WSAStartup(wVersionRequested, &wsaData);  //¼ÓÔØÌ×½Ó×Ö¿â  
+		//WinSockåˆå§‹åŒ–  
+		wVersionRequested = MAKEWORD(2, 2); //å¸Œæœ›ä½¿ç”¨çš„WinSock DLLçš„ç‰ˆæœ¬  
+		ret = WSAStartup(wVersionRequested, &wsaData);  //åŠ è½½å¥—æ¥å­—åº“  
 		if(ret!=0)  
 		{  
 			AfxMessageBox("WSAStartup() failed!\n");  
 			//return 0;  
 		}  
-		//È·ÈÏWinSock DLLÖ§³Ö°æ±¾2.2  
+		//ç¡®è®¤WinSock DLLæ”¯æŒç‰ˆæœ¬2.2  
 		if(LOBYTE(wsaData.wVersion)!=2 || HIBYTE(wsaData.wVersion)!=2)  
 		{  
-			WSACleanup();   //ÊÍ·ÅÎª¸Ã³ÌĞò·ÖÅäµÄ×ÊÔ´£¬ÖÕÖ¹¶Ôwinsock¶¯Ì¬¿âµÄÊ¹ÓÃ  
+			WSACleanup();   //é‡Šæ”¾ä¸ºè¯¥ç¨‹åºåˆ†é…çš„èµ„æºï¼Œç»ˆæ­¢å¯¹winsockåŠ¨æ€åº“çš„ä½¿ç”¨  
 			AfxMessageBox("Invalid WinSock version!\n");  
 			//return 0;  
 		}  
 		
-		//´´½¨Socket,Ê¹ÓÃTCPĞ­Òé  
+		//åˆ›å»ºSocket,ä½¿ç”¨TCPåè®®  
 		g_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);  
 		if (g_socket == INVALID_SOCKET)  
 		{  
@@ -158,17 +158,17 @@ BOOL CDashmp4Dlg::OnInitDialog()
 			//return 0;  
 		}  
 		
-		//¹¹½¨·şÎñÆ÷µØÖ·ĞÅÏ¢  
-		saServer.sin_family = AF_INET; //µØÖ·¼Ò×å  
-		saServer.sin_port = htons(8888); //×¢Òâ×ª»¯ÎªÍøÂç½ÚĞò  
+		//æ„å»ºæœåŠ¡å™¨åœ°å€ä¿¡æ¯  
+		saServer.sin_family = AF_INET; //åœ°å€å®¶æ—  
+		saServer.sin_port = htons(8888); //æ³¨æ„è½¬åŒ–ä¸ºç½‘ç»œèŠ‚åº  
 		saServer.sin_addr.S_un.S_addr = inet_addr("127.0.0.1");  
 		
-		//Á¬½Ó·şÎñÆ÷  
+		//è¿æ¥æœåŠ¡å™¨  
 		ret = connect(g_socket, (struct sockaddr *)&saServer, sizeof(saServer));  
 		if (ret == SOCKET_ERROR)  
 		{  
 			AfxMessageBox("connect() failed!\n");  
-			closesocket(sClient); //¹Ø±ÕÌ×½Ó×Ö  
+			closesocket(sClient); //å…³é—­å¥—æ¥å­—  
 			WSACleanup();  
 			//return 0;  
 		}  
@@ -237,7 +237,7 @@ void CDashmp4Dlg::OnOK()
 	vector <H264Frame> vecFrames;
 	
 	
-	FILE* pFile = fopen("d://file//test.h264", "rb");
+	FILE* pFile = fopen("./test.h264", "rb");
 	if (!pFile)
 	{
 		AfxMessageBox("read file error");
