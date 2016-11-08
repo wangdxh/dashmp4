@@ -1,0 +1,42 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>MseLive</title>    
+</head>
+<body>
+    <video id="myVideo" autoplay controls></video>    
+    <script>
+        // application.
+        var mediaSource = new MediaSource();
+
+        var video = document.getElementById("myVideo");
+        video.src = URL.createObjectURL(mediaSource);
+
+        mediaSource.addEventListener('sourceopen', function(_)
+        {
+        	  
+            //var audioSourceBuffer = mediaSource.addSourceBuffer('video/mp4;codecs="mp4a.40.2"');
+            var videoSourceBuffer = mediaSource.addSourceBuffer('video/mp4;codecs="avc1.42E01E"');
+
+            var url = "ws://" + window.location.host + "/wsdashlive";
+            console.log('start play flow ' + url);
+            
+            //set ws function
+            var client = new WebSocket( url );
+						client.binaryType = 'arraybuffer';
+            client.onmessage = function(evt) 
+            { 
+            			var messageData = new Uint8Array(evt.data);
+			            videoSourceBuffer.appendBuffer(messageData.buffer);
+			      }; 
+             
+                
+       });
+                    
+    </script>
+</body>
+</html>
